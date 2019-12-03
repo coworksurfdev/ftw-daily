@@ -14,6 +14,7 @@ way to update this template, but currently, we follow a pattern:
 
 ## Upcoming version 2019-XX-XX
 
+- [fix] Update links to API Reference docs. [#1231](https://github.com/sharetribe/ftw-daily/pull/1231)
 - [change] In `PayoutDetailsForm` show states (US and AU) and provinces (CA) in dropdown instead of
   input. Since November 18, 2019 Stripe has been validating these values (read more
   https://support.stripe.com/questions/connect-address-validation).
