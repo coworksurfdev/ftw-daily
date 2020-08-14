@@ -245,10 +245,6 @@
     /* The calendar needs 312px */
     flex-basis: 312px;
     flex-shrink: 0;
-
-    & > div {
-      top: 95px;
-    }
   }
 }
 

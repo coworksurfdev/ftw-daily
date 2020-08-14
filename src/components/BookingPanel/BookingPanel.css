@@ -157,11 +157,6 @@
     padding: 18px 60px 18px 60px;
   }
 }
-@media (--viewportLarge) {
-  .openBookingForm {
-    display: none;
-  }
-}
 
 .priceContainer {
   /* Layout */

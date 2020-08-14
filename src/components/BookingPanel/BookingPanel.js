@@ -20,7 +20,7 @@ import { BookingDatesForm } from '../../forms'
 import css from './BookingPanel.css'
 
 // This defines when ModalInMobile shows content as Modal
-const MODAL_BREAKPOINT = 1023
+const MODAL_BREAKPOINT = 4000
 
 const openBookModal = (isOwnListing, isClosed, history, location) => {
   if (isOwnListing || isClosed) {

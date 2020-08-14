@@ -245,9 +245,6 @@
     flex-basis: 312px;
     flex-shrink: 0;
   }
-  .bookingPanel > div {
-    top: 95px;
-  }
 }
 
 .sectionAvatar {
