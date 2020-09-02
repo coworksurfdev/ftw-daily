@@ -2,6 +2,7 @@ import mean from 'lodash/mean'
 import round from 'lodash/round'
 import reduce from 'lodash/reduce'
 import sumBy from 'lodash/sumBy'
+import Decimal from 'decimal.js'
 import {
   convertUnitToSubUnit,
   ensureSeparator,
@@ -51,14 +52,29 @@ export const getPriceAfterDiscounts = (product, startDate, endDate) => {
     const pd = product.losDiscount.find((losd) => losd.days === losDiscountMatch.toString())
     discount = (1 - parseInt(pd.percent, 10) / 100)
   }
-  console.log(price)
+  const discountedPrice = price * discount
+  const preDiscountUnitPrice = () => {
+    return price / numberOfDaysSelected
+  }
+  const unitPrice = () => {
+    return discountedPrice / numberOfDaysSelected
+  }
   return {
     preDiscountPrice: price,
     preDiscountMoneyPrice: new Money(price, config.currencyConfig.currency),
-    price: price * discount,
-    moneyPrice: new Money(price * discount, config.currencyConfig.currency),
+    price: discountedPrice,
+    moneyPrice: new Money(discountedPrice, config.currencyConfig.currency),
     discount,
-    breakdown
+    discountPrint: () => {
+      const d = new Decimal(discount)
+      const m = new Decimal(1)
+      return parseInt(m.minus(d).times(100).times(-1).toFixed(0), 10)
+    },
+    breakdown,
+    preDiscountUnitPrice: preDiscountUnitPrice(),
+    unitPrice: unitPrice(),
+    userCommission: new Money(discountedPrice * 0.11, config.currencyConfig.currency),
+    unitCount: numberOfDaysSelected
   }
 }
 

@@ -34,8 +34,13 @@ import { types as sdkTypes } from '../../util/sdkLoader'
 import { dateFromLocalToAPI, nightsBetween, daysBetween } from '../../util/dates'
 import { TRANSITION_REQUEST_PAYMENT, TX_TRANSITION_ACTOR_CUSTOMER } from '../../util/transaction'
 import {
-  LINE_ITEM_DAY, LINE_ITEM_NIGHT, LINE_ITEM_UNITS, DATE_TYPE_DATE, LINE_ITEM_CUSTOMER_COMMISSION,
-} from '../../util/types'
+  LINE_ITEM_DAY,
+  LINE_ITEM_NIGHT,
+  LINE_ITEM_UNITS,
+  DATE_TYPE_DATE,
+  LINE_ITEM_CUSTOMER_COMMISSION,
+  LINE_ITEM_EXTENDED_STAY_DISCOUNT,
+} from '../../util/types';
 import { BookingBreakdown } from '../../components'
 import config from '../../config'
 
@@ -54,6 +59,7 @@ const estimatedTransaction = (
   quantity,
   product,
   totalPrice,
+  chargeBreakdown,
   discount
 ) => {
   const now = new Date()
@@ -68,20 +74,14 @@ const estimatedTransaction = (
       ? daysBetween(bookingStart, bookingEnd)
       : quantity
 
-  const unitPriceAfterAdjustments = (up) => {
-    if (discount) {
-      return new Money(up.amount * discount, up.currency)
-    }
-    return new Money(up.amount, up.currency)
-  }
   const userCommissionAfterAdjustments = () => new Money(totalPrice.amount * 0.11, unitPrice.currency)
 
   const createStandardLineItem = () => ([{
     code: unitType,
     includeFor: ['customer', 'provider'],
-    unitPrice: unitPriceAfterAdjustments(unitPrice),
+    unitPrice: new Money(chargeBreakdown.preDiscountUnitPrice, unitPrice.currency),
     quantity: new Decimal(unitCount),
-    lineTotal: totalPrice,
+    lineTotal: new Money(((chargeBreakdown.preDiscountPrice / unitCount) * unitCount), unitPrice.currency),
     reversal: false,
   }])
 
@@ -124,7 +124,7 @@ const estimatedTransaction = (
   const isSplitPayment = nightsUntilStartDate >= config.splitPaymentCapDays
   const payInTotal = () => {
     const t = new Decimal(totalPrice.amount)
-    const withCustomerCommish = t.add(t.times(0.11)).toNumber().toFixed(0)
+    const withCustomerCommish = t.add(t.times(0.11)).toNumber().toFixed(2)
     const total = new Decimal(withCustomerCommish)
     return new Money(total.toNumber(), unitPrice.currency)
   }
@@ -144,7 +144,7 @@ const estimatedTransaction = (
           code: LINE_ITEM_CUSTOMER_COMMISSION,
           includeFor: ['customer'],
           lineTotal: userCommissionAfterAdjustments(),
-          unitPrice: unitPriceAfterAdjustments(unitPrice),
+          unitPrice: chargeBreakdown.unitPrice,
           reversal: false,
         }
       ],
@@ -196,6 +196,7 @@ const EstimatedBreakdownMaybe = (props) => {
     quantity,
     product,
     chargeBreakdown.moneyPrice,
+    chargeBreakdown,
     discount
   )
 
@@ -206,7 +207,8 @@ const EstimatedBreakdownMaybe = (props) => {
     unitPrice,
     quantity,
     product,
-    chargeBreakdown.preDiscountMoneyPrice
+    chargeBreakdown.preDiscountMoneyPrice,
+    chargeBreakdown
   )
 
   return (

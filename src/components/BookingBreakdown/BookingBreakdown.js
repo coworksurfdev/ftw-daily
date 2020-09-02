@@ -11,10 +11,11 @@ import {
   LINE_ITEM_CUSTOMER_COMMISSION,
   LINE_ITEM_PROVIDER_COMMISSION,
 } from '../../util/types'
+import EstimatedLineItemDiscountMaybe from './EstimatedLineItemDiscountMaybe'
 
 import LineItemBookingPeriod from './LineItemBookingPeriod'
 import LineItemBasePriceMaybe from './LineItemBasePriceMaybe'
-import LineItemDiscountMaybe from './LineItemDiscountMaybe';
+import LineItemDiscountMaybe from './LineItemDiscountMaybe'
 import LineItemUnitsMaybe from './LineItemUnitsMaybe'
 import LineItemSubTotalMaybe from './LineItemSubTotalMaybe'
 import LineItemCustomerCommissionMaybe from './LineItemCustomerCommissionMaybe'
@@ -38,7 +39,9 @@ export const BookingBreakdownComponent = (props) => {
     intl,
     dateType,
     discount,
-    prediscountTx
+    prediscountTx,
+    pricingData,
+    shouldHackForCheckoutPage
   } = props
 
   const isCustomer = userRole === 'customer'
@@ -97,11 +100,19 @@ export const BookingBreakdownComponent = (props) => {
         prediscountTx ? <LineItemBasePriceMaybe transaction={prediscountTx} unitType={unitType} intl={intl} discount={discount}/> : null
       }
       {
-        prediscountTx ? <LineItemDiscountMaybe transaction={prediscountTx} unitType={unitType} intl={intl} discount={discount}/> : null
+        prediscountTx ? <EstimatedLineItemDiscountMaybe transaction={prediscountTx} unitType={unitType} intl={intl} discount={discount}/> : null
       }
       {
-        prediscountTx ? null : <LineItemBasePriceMaybe transaction={transaction} unitType={unitType} intl={intl}/>
+        prediscountTx ? null
+          : <LineItemBasePriceMaybe
+            transaction={transaction}
+            unitType={unitType}
+            intl={intl}
+            pricingData={pricingData}
+            shouldHackForCheckoutPage={shouldHackForCheckoutPage}
+          />
       }
+      <LineItemDiscountMaybe transaction={transaction} unitType={unitType} intl={intl} />
       <LineItemUnknownItemsMaybe transaction={transaction} intl={intl} />
 
       <LineItemSubTotalMaybe

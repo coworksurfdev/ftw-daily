@@ -13,7 +13,12 @@ import config from '../../config'
 import routeConfiguration from '../../routeConfiguration'
 import { pathByRouteName, findRouteByRouteName } from '../../util/routes'
 import {
-  propTypes, LINE_ITEM_NIGHT, LINE_ITEM_DAY, DATE_TYPE_DATE
+  propTypes,
+  LINE_ITEM_NIGHT,
+  LINE_ITEM_DAY,
+  DATE_TYPE_DATE,
+  LINE_ITEM_CUSTOMER_COMMISSION,
+  LINE_ITEM_EXTENDED_STAY_DISCOUNT,
 } from '../../util/types'
 import {
   ensureListing,
@@ -118,6 +123,7 @@ export class CheckoutPageComponent extends Component {
     this.loadInitialData = this.loadInitialData.bind(this)
     this.handlePaymentIntent = this.handlePaymentIntent.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.pricing = this.pricing.bind(this)
   }
 
   componentDidMount() {
@@ -509,6 +515,18 @@ export class CheckoutPageComponent extends Component {
    * @return a params object for custom pricing bookings
    */
 
+  pricing() {
+    const {
+      bookingData,
+      bookingDates,
+      listing,
+    } = this.props
+    const { bookingProduct } = bookingData
+    const { publicData } = listing.attributes
+    const product = publicData.products.find((p) => p.id === bookingProduct)
+    return product ? getPriceAfterDiscounts(product, bookingDates.bookingStart, bookingDates.bookingEnd) : {}
+  }
+
   customPricingParams(pageData, { bookingStart, bookingEnd, ...rest }) {
     const unitType = config.bookingUnitType
     const isNightly = unitType === LINE_ITEM_NIGHT
@@ -526,22 +544,32 @@ export class CheckoutPageComponent extends Component {
       : undefined
 
     const pricingAdjustments = getPriceAfterDiscounts(product, bookingStart, bookingEnd)
+    // const unitPrice = productPrice
+    //   ? new Money(pricingAdjustments.preDiscountUnitPrice, productPrice.currency)
+    //   : price
 
-    const unitPrice = productPrice
-      ? new Money(productPrice.amount * pricingAdjustments.discount, productPrice.currency)
-      : price
 
+    const lineItems = [
+      {
+        code: unitType,
+        unitPrice: pricingAdjustments.preDiscountMoneyPrice,
+        quantity: 1,
+      }
+    ]
+    if (pricingAdjustments.discount < 1) {
+      lineItems.push(
+        {
+          code: LINE_ITEM_EXTENDED_STAY_DISCOUNT,
+          unitPrice: pricingAdjustments.preDiscountMoneyPrice,
+          percentage: pricingAdjustments.discountPrint()
+        }
+      )
+    }
     return {
       listingId: pageData.listing.id,
       bookingStart,
       bookingEnd,
-      lineItems: [
-        {
-          code: unitType,
-          unitPrice,
-          quantity,
-        },
-      ],
+      lineItems,
       ...rest,
     }
   }
@@ -634,6 +662,7 @@ export class CheckoutPageComponent extends Component {
     // (i.e. have an id)
     const tx = existingTransaction.booking ? existingTransaction : speculatedTransaction
     const txBooking = ensureBooking(tx.booking)
+    const pricing = this.pricing()
     const breakdown
       = tx.id && txBooking.id ? (
         <BookingBreakdown
@@ -643,6 +672,8 @@ export class CheckoutPageComponent extends Component {
           transaction={tx}
           booking={txBooking}
           dateType={DATE_TYPE_DATE}
+          pricingData={pricing}
+          shouldHackForCheckoutPage={true}
         />
       ) : null
 
