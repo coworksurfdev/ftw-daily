@@ -2,7 +2,7 @@ import ReactGA from 'react-ga'
 
 export const initAnalytics = (userId) => {
   if (window) {
-    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYICS_UA, {
+    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID, {
       debug: true,
       titleCase: false,
       gaOptions: {
