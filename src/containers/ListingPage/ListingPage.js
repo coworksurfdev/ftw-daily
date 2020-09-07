@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import omit from 'lodash/omit'
 import Button from '../../components/Button/Button'
-import { initAnalytics, trackEvent } from '../../util/analytics';
+import { initAnalytics, trackEvent } from '../../util/analytics'
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl'
 import config from '../../config'
 import routeConfiguration from '../../routeConfiguration'
