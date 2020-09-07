@@ -13,9 +13,13 @@ export const initAnalytics = (userId) => {
 }
 
 export const trackEvent = (category, action, value) => {
-  ReactGA.event({
-    category,
-    action,
-    value
-  })
+  try {
+    ReactGA.event({
+      category,
+      action,
+      value
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
