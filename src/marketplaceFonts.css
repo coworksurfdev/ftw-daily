@@ -265,6 +265,7 @@
   /* ================ Tabbed navigation font styles ================ */
   --marketplaceTabNavFontStyles {
     font-weight: var(--fontWeightMedium);
+    font-family: "Fira Sans", Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0;
