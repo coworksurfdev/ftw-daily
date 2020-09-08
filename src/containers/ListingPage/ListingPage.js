@@ -491,7 +491,7 @@ export class ListingPageComponent extends Component {
                       rootClassName={css.bookButton}
                       onClick={() => openBookModal('Pressed Check Availability')}
                     >
-                      <FormattedMessage id="ListingPage.checkAvailability" />
+                      <FormattedMessage id="BookingPanel.ctaButtonMessage" />
                     </Button>
                   </div>
                   {/* <SectionCommunityMaybe publicData={publicData} /> */}

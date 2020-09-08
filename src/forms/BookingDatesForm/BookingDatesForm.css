@@ -66,18 +66,6 @@
   flex-shrink: 0;
   width: 60%;
 }
-@media (--viewportMedium) {
-  .smallPrint {
-    margin-top: auto;
-    margin-bottom: 20px;
-  }
-}
-@media (--viewportLarge) {
-  .smallPrint {
-    margin-top: 21px;
-    margin-bottom: 21px;
-  }
-}
 
 .submitButtonWrapper {
   flex-shrink: 0;
@@ -111,6 +99,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .guaranteeIconBadge {
