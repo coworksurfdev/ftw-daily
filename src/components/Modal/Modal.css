@@ -1,0 +1,72 @@
+@import '../../marketplace.css';
+/* Content is visible as modal layer */
+.isOpen {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  /* scrollLayer is the .root for the Modal */
+}
+.isOpen .scrollLayer {
+  @apply --marketplaceModalRootStyles;
+  /* Add default background color to avoid bouncing scroll showing the
+  page contents from behind the modal. */
+  background-color: var(--matterColorLight);
+  /* Additional styles for the modal window, dimming the background and positioning the modal */
+  min-height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (--viewportMedium) {
+  .isOpen .scrollLayer {
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    background-image: none;
+  }
+}
+.isOpen .container {
+  @apply --marketplaceModalBaseStyles;
+  min-height: 100vh;
+  height: 100%;
+}
+@media (--viewportMedium) {
+  .isOpen .container {
+    flex-basis: 576px;
+    min-height: auto;
+    height: auto;
+  }
+}
+
+/* Content is explicitly hidden (this default can be overridden with passed-in class) */
+/* The use case for having both .isOpen and .isClosed is ModalInMobile use case       */
+/* where desktop layout should not get any styling from Modal component.              */
+.isClosed {
+  display: none;
+}
+
+.close {
+  @apply --marketplaceModalCloseStyles;
+}
+
+.closeText {
+  @apply --marketplaceModalCloseText;
+}
+
+.closeIcon {
+  @apply --marketplaceModalCloseIcon;
+}
+
+.closeLight {
+  color: var(--matterColorAnti);
+  transition: var(--transitionStyleButton);
+}
+.closeLight:enabled:hover, .closeLight:enabled:active {
+  color: var(--matterColorLight);
+}
+
+/*# sourceMappingURL=Modal.css.map */

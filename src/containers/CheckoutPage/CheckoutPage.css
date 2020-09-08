@@ -113,6 +113,15 @@
   }
 }
 
+.chargeNotification {
+  margin-bottom: 20px;
+}
+@media (--viewportLarge) {
+  .chargeNotification {
+    padding: 0px;
+  }
+}
+
 .rootForImage {
   /* Layout - image will take space defined by aspect ratio wrapper */
   position: absolute;

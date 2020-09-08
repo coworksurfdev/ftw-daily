@@ -28,7 +28,7 @@ export const NotificationBanner = (props) => {
       case 'help':
         return classNames(css.notificationBannerContainer, css.notificationBannerContainerHelp)
       default:
-        return null
+        return classNames(css.notificationBannerContainer, css.notificationBannerContainerHelp)
     }
   }
 
