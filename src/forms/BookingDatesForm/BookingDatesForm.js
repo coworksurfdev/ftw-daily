@@ -97,7 +97,6 @@ export class BookingDatesFormComponent extends Component {
           const unitPrice = productPrice
             ? new Money(productPrice.amount, productPrice.currency)
             : listing.attributes.price
-
           const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {}
 
           // This is the place to collect breakdown estimation data. See the
@@ -134,7 +133,6 @@ export class BookingDatesFormComponent extends Component {
             month: 'short',
             day: 'numeric',
           }
-
           const now = moment()
           const today = now.startOf('day').toDate()
           const tomorrow = now
@@ -148,7 +146,6 @@ export class BookingDatesFormComponent extends Component {
           const submitButtonClasses = classNames(
             submitButtonWrapperClassName || css.submitButtonWrapper
           )
-
           const bookingStartLabel = intl.formatMessage({
             id: 'BookingDatesForm.bookingStartTitle',
           })
@@ -165,14 +162,12 @@ export class BookingDatesFormComponent extends Component {
               <FormattedMessage id="BookingDatesForm.timeSlotsError" />
             </p>
           ) : null
-
           const productRequired = intl.formatMessage({
             id: 'BookingDatesForm.requiredDate',
           })
           const productTitle = intl.formatMessage({
             id: 'BookingDatesForm.roomTypePlaceholder',
           })
-
           const products = listing.attributes.publicData && listing.attributes.publicData.products
 
           return (
@@ -203,6 +198,7 @@ export class BookingDatesFormComponent extends Component {
                     <h4 style={{ fontWeight: 600 }}>{productTitle}</h4>
                     {
                       products.map((prod) => {
+                        console.log(getPriceAfterDiscounts(prod, startDate, endDate))
                         return (
                           <BookingProductRadioButton
                             id={prod.id}
@@ -213,7 +209,7 @@ export class BookingDatesFormComponent extends Component {
                             showAsRequired={true}
                             product={prod}
                             images={listing.images.filter((img) => includes(keys(prod.photos), img.id.uuid))}
-                            price={startDate && endDate ? getPriceAfterDiscounts(prod, startDate, endDate).price : null}
+                            price={startDate && endDate ? getPriceAfterDiscounts(prod, startDate, endDate).finalUnitPrice : null}
                             useMobileMargins
                             validate={required(productRequired)}
                             fieldMeta={fieldRenderProps}

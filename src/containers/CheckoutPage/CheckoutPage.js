@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import { IconOnePercent } from '../../assets/IconOnePercent'
+import { NotificationBanner } from '../../components/NotificationBanner/NotificationBanner'
 import { getPriceAfterDiscounts } from '../../util/price'
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl'
 import config from '../../config'
@@ -548,7 +549,6 @@ export class CheckoutPageComponent extends Component {
     //   ? new Money(pricingAdjustments.preDiscountUnitPrice, productPrice.currency)
     //   : price
 
-
     const lineItems = [
       {
         code: unitType,
@@ -863,13 +863,24 @@ export class CheckoutPageComponent extends Component {
                 />
               </div>
             </div>
-
             <div className={css.priceBreakdownContainer}>
               {speculateTransactionErrorMessage}
               {breakdown}
+              <div className={css.chargeNotification}>
+                <NotificationBanner
+                  text={'You card will not be charged until the host confirms availability and accepts the booking.'}
+                  type={'help'}
+                />
+              </div>
             </div>
 
             <section className={css.paymentContainer}>
+              <div className={css.chargeNotification}>
+                <NotificationBanner
+                  text={'You card will not be charged until the host confirms availability and accepts the booking.'}
+                  type={'help'}
+                />
+              </div>
               {initiateOrderErrorMessage}
               {listingNotFoundErrorMessage}
               {speculateErrorMessage}
@@ -933,9 +944,9 @@ export class CheckoutPageComponent extends Component {
               {speculateTransactionErrorMessage}
               {breakdown}
             </div>
-            <div className={css.onePercentLogoContainer}>
-              <IconOnePercent className={css.onePercentLogo}/>
-            </div>
+            {/*<div className={css.onePercentLogoContainer}>*/}
+            {/*  <IconOnePercent className={css.onePercentLogo}/>*/}
+            {/*</div>*/}
           </div>
         </div>
       </Page>

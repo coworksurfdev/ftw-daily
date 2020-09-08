@@ -64,16 +64,6 @@
   margin: auto 24px auto 24px;
   flex-shrink: 0;
   width: 60%;
-
-  @media (--viewportMedium) {
-    margin-top: auto;
-    margin-bottom: 20px;
-  }
-
-  @media (--viewportLarge) {
-    margin-top: 21px;
-    margin-bottom: 21px;
-  }
 }
 
 .submitButtonWrapper {
@@ -108,6 +98,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .guaranteeIconBadge {

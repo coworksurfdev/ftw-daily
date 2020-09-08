@@ -6,8 +6,8 @@ import { Field } from 'react-final-form'
 import FaceIcon from '@material-ui/icons/Face'
 import get from 'lodash/get'
 import find from 'lodash/find'
-import { trackEvent } from '../../util/analytics';
-import { lazyLoadWithDimensions } from '../../util/contextHelpers';
+import { trackEvent } from '../../util/analytics'
+import { lazyLoadWithDimensions } from '../../util/contextHelpers'
 import {
   formatMoney, convertMoneyToNumber, convertUnitToSubUnit, unitDivisor
 } from '../../util/currency'
@@ -125,7 +125,6 @@ const BookingProductRadioButtonComponent = (props) => {
   // we don't want to alter the actual transaction amount as its handled on the backend
   // but we do want to give the user the actual total price, not surprise them on the checkout page
   // with a service fee
-  const adjustTotalDisplayPrice = () => price + (price * 0.11)
 
   const required = (value) => (value ? undefined : 'Select a room')
 
@@ -164,9 +163,12 @@ const BookingProductRadioButtonComponent = (props) => {
               <div className={css.totalPrice}>
                 {
                   price
-                    ? <span>
-                      {formatMoney(intl, new Money(adjustTotalDisplayPrice(), product.price.currency))}
-                    </span> : null
+                    ? <div className={css.nightlyPriceContainer}>
+                      <span>
+                        {formatMoney(intl, new Money(price, product.price.currency))}
+                      </span>
+                      <span className={css.nightlyPriceSubText}>/ night, including fees</span>
+                    </div> : null
                 }
               </div>
               <IconRadioButton checked={fieldMeta.values.bookingProduct === product.id}/>

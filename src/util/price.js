@@ -9,7 +9,7 @@ import {
   truncateToSubUnitPrecision,
   unitDivisor,
 } from './currency'
-import { enumerateDaysBetweenDates, nightsBetween } from './dates';
+import { enumerateDaysBetweenDates, nightsBetween } from './dates'
 import { types as sdkTypes } from './sdkLoader'
 import config from '../config'
 
@@ -53,12 +53,8 @@ export const getPriceAfterDiscounts = (product, startDate, endDate) => {
     discount = (1 - parseInt(pd.percent, 10) / 100)
   }
   const discountedPrice = price * discount
-  const preDiscountUnitPrice = () => {
-    return price / numberOfDaysSelected
-  }
-  const unitPrice = () => {
-    return discountedPrice / numberOfDaysSelected
-  }
+  const preDiscountUnitPrice = price / numberOfDaysSelected
+  const unitPrice = discountedPrice / numberOfDaysSelected
   return {
     preDiscountPrice: price,
     preDiscountMoneyPrice: new Money(price, config.currencyConfig.currency),
@@ -71,15 +67,16 @@ export const getPriceAfterDiscounts = (product, startDate, endDate) => {
       return parseInt(m.minus(d).times(100).times(-1).toFixed(0), 10)
     },
     breakdown,
-    preDiscountUnitPrice: preDiscountUnitPrice(),
-    unitPrice: unitPrice(),
+    preDiscountUnitPrice,
+    unitPrice,
+    finalUnitMoneyPrice: new Money((unitPrice + (unitPrice * 0.11)), config.currencyConfig.currency),
+    finalUnitPrice: unitPrice + (unitPrice * 0.11),
     userCommission: new Money(discountedPrice * 0.11, config.currencyConfig.currency),
     unitCount: numberOfDaysSelected
   }
 }
 
 export const getMoneyFromValue = (unformattedValue) => {
-  console.log(unformattedValue)
   const { currencyConfig } = config
   const isEmptyString = unformattedValue === ''
   try {
@@ -109,7 +106,6 @@ export const getDisplayValueFromMoney = (value, intl) => {
 }
 
 export const setProductPricing = (product) => {
-  console.log(product)
   try {
     if (product.pricing_type === 'standard') {
       return {
@@ -131,10 +127,7 @@ export const setProductPricing = (product) => {
         }
       }
     })
-    console.log(prices)
-    console.log(adjustedPricing)
     const m = getMoneyFromValue(round(mean(prices), -2))
-    console.log(m)
     return {
       seasonalPricing: adjustedPricing,
       price: {
