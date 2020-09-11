@@ -1,10 +1,10 @@
-import React from 'react';
-import { string } from 'prop-types';
+import React from 'react'
+import { string } from 'prop-types'
 
-import css from './SectionVideoMaybe.css';
+import css from './SectionVideoMaybe.css'
 
-const SectionVideoMaybe = props => {
-  const { video } = props;
+const SectionVideoMaybe = (props) => {
+  const { video } = props
 
   return video ? (
     <div className={css.sectionVideo}>
@@ -19,11 +19,11 @@ const SectionVideoMaybe = props => {
         />
       </div>
     </div>
-  ) : null;
-};
+  ) : null
+}
 
 SectionVideoMaybe.propTypes = {
   video: string,
-};
+}
 
-export default SectionVideoMaybe;
+export default SectionVideoMaybe

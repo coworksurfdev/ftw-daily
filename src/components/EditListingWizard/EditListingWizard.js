@@ -2,8 +2,8 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid'
+import { IconStripe } from '../../assets/IconStripe'
 import Typography from '@material-ui/core/Typography'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import React, { Component } from 'react'
@@ -30,6 +30,7 @@ import {
   Modal, NamedRedirect, Tabs, StripeConnectAccountStatusBox
 } from '..'
 import { StripeConnectAccountForm } from '../../forms'
+import EmbedVideoAsk from '../EmbedVideoAsk/EmbedVideoAsk'
 import MButton from '../MButton/MButton'
 import { AlertDialog } from '../MModalDialog/MModalDialog'
 
@@ -210,7 +211,6 @@ const handleGetStripeConnectAccountLinkFn = (getLinkFn, commonParams) => (type) 
 // Create a new or edit listing through EditListingWizard
 
 class EditListingWizard extends Component {
-
   constructor(props) {
     super(props)
 
@@ -448,7 +448,7 @@ class EditListingWizard extends Component {
 
     return (
       <div className={classes}>
-        {this.welcomeDialog()}
+        {/*{this.welcomeDialog()}*/}
         <Tabs
           rootClassName={css.tabsContainer}
           navRootClassName={css.nav}
@@ -485,12 +485,20 @@ class EditListingWizard extends Component {
         >
           <div className={css.modalPayoutDetailsWrapper}>
             <h1 className={css.modalTitle}>
-              <FormattedMessage id="EditListingPhotosPanel.payoutModalTitleOneMoreThing" />
-              <br />
               <FormattedMessage id="EditListingPhotosPanel.payoutModalTitlePayoutPreferences" />
+              <span className={css.poweredByStripeContainer}>
+                <span>secured by</span>
+                <IconStripe className={css.stripeIcon}/>
+              </span>
             </h1>
             <p className={css.modalMessage}>
-              <FormattedMessage id="EditListingPhotosPanel.payoutModalInfo" />
+              Last thing before we can publish your listing, you must connect to <a href="https://stripe.com/" style={{textDecoration: 'underline'}}>Stripe</a>.
+              <br/>
+              <br/>
+              Stripe handles all of our payment processing. It is 100% secure and trusted by major companies around the world.
+              <br/>
+              <br/>
+              None of your banking data is stored or accessible by Coworksurf.
             </p>
             {!currentUserLoaded ? (
               <FormattedMessage id="StripePayoutPage.loadingData" />

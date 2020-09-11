@@ -258,7 +258,7 @@
   "EditListingPhotosForm.showListingFailed": "Fetching listing data failed",
   "EditListingPhotosForm.updateFailed": "Failed to update listing. Please try again.",
   "EditListingPhotosPanel.createListingTitle": "Any additional photos you want to share?",
-  "EditListingPhotosPanel.payoutModalInfo": "Almost done! In order to send you money, we need to know a bit more about you. Next, we will guide you through verifying your account. The details can also be edited from Account Setting page on Payout details tab. ",
+  "EditListingPhotosPanel.payoutModalInfo": "Last thing before we can publish your listing, we need to connect you to Stripe.",
   "EditListingPhotosPanel.payoutModalTitleOneMoreThing": "One more thing:",
   "EditListingPhotosPanel.payoutModalTitlePayoutPreferences": "Payout preferences",
   "EditListingPhotosPanel.title": "Edit the photos of {listingTitle}",

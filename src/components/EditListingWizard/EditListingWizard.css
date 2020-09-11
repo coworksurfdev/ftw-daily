@@ -112,4 +112,15 @@
   }
 }
 
+.poweredByStripeContainer {
+  font-size: 8px;
+  margin-left: 10px;
+}
+
+.stripeIcon {
+  height: 30px;
+  width: 30px;
+  margin-left: 5px;
+}
+
 /*# sourceMappingURL=EditListingWizard.css.map */

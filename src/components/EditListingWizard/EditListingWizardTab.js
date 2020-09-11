@@ -340,25 +340,6 @@ const EditListingWizardTab = (props) => {
         />
       )
     }
-    // case COWORKING: {
-    //   const submitButtonTranslationKey = isNewListingFlow
-    //     ? 'EditListingWizard.saveNewPhotos'
-    //     : 'EditListingWizard.saveEditPhotos'
-    //
-    //   return (
-    //     <EditListingPhotosPanel
-    //       {...panelProps(PHOTOS)}
-    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-    //       images={images}
-    //       onImageUpload={onImageUpload}
-    //       onRemoveImage={onRemoveImage}
-    //       onSubmit={(values) => {
-    //         onCompleteEditListingWizardTab(tab, values)
-    //       }}
-    //       onUpdateImageOrder={onUpdateImageOrder}
-    //     />
-    //   )
-    // }
     default:
       return null
   }

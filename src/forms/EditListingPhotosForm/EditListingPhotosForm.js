@@ -15,9 +15,6 @@ import ListingImageSelectBlock
 import { NotificationBanner } from '../../components/NotificationBanner/NotificationBanner'
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl'
 import { propTypes } from '../../util/types'
-import {
-  nonEmptyArray, composeValidators, validYouTubeURL, required
-} from '../../util/validators'
 import { isUploadImageOverLimitError } from '../../util/errors'
 import {
   AddImages, Button, FieldBoolean, FieldTextInput, Form, ValidationError,
@@ -72,8 +69,6 @@ export class EditListingPhotosFormComponent extends Component {
             readyForUpload,
             values
           } = formRenderProps
-
-          console.log(values)
 
           const {
             publishListingError, showListingsError, updateListingError, uploadImageError
@@ -155,7 +150,7 @@ export class EditListingPhotosFormComponent extends Component {
                     form={form}
                     values={values}
                     formValuesKey={'main'}
-                    disabled={form.getState().invalid}
+                    disabled={false}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -166,7 +161,6 @@ export class EditListingPhotosFormComponent extends Component {
                     type="text"
                     label={videoMessage}
                     placeholder={videoPlaceholderMessage}
-                    validate={composeValidators(validYouTubeURL(videoValidMessage))}
                   />
                   <NotificationBanner
                     text={'A simple walkthrough video from your phone can create more trust and increase bookings by up to 317%! You can easily record it right from the YouTube app.'}
