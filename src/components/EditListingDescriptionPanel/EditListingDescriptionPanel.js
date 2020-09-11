@@ -109,7 +109,7 @@ const EditListingDescriptionPanel = (props) => {
         categories={config.custom.categories}
         listing={currentListing}
       />
-      <EmbedVideoAsk code={'fpfajv9zz'}/>
+      {/*<EmbedVideoAsk code={'fpfajv9zz'}/>*/}
     </div>
   )
 }

@@ -70,7 +70,7 @@ const EditListingCoworkingPanel = (props) => {
         categories={config.custom.categories}
         listing={currentListing}
       />
-      <EmbedVideoAsk code={'fm3m6mpvx'}/>
+      {/*<EmbedVideoAsk code={'fm3m6mpvx'}/>*/}
     </div>
   )
 }
