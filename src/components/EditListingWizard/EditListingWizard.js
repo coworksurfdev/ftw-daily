@@ -2,8 +2,8 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import React, { Component } from 'react'
@@ -30,6 +30,7 @@ import {
   Modal, NamedRedirect, Tabs, StripeConnectAccountStatusBox
 } from '..'
 import { StripeConnectAccountForm } from '../../forms'
+import EmbedVideoAsk from '../EmbedVideoAsk/EmbedVideoAsk';
 import MButton from '../MButton/MButton'
 import { AlertDialog } from '../MModalDialog/MModalDialog'
 
@@ -210,7 +211,6 @@ const handleGetStripeConnectAccountLinkFn = (getLinkFn, commonParams) => (type) 
 // Create a new or edit listing through EditListingWizard
 
 class EditListingWizard extends Component {
-
   constructor(props) {
     super(props)
 

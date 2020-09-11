@@ -11,6 +11,7 @@ import { ensureOwnListing } from '../../util/data'
 import { ListingLink } from '..'
 import { LISTING_STATE_DRAFT } from '../../util/types'
 import config from '../../config'
+import EmbedVideoAsk from '../EmbedVideoAsk/EmbedVideoAsk';
 
 import css from './EditListingCoworkingPanel.css'
 
@@ -69,6 +70,7 @@ const EditListingCoworkingPanel = (props) => {
         categories={config.custom.categories}
         listing={currentListing}
       />
+      <EmbedVideoAsk />
     </div>
   )
 }
