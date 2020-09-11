@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const EmbedVideoAsk = () => {
+const EmbedVideoAsk = (props) => {
   const [isReady, setReady] = useState(false)
   useEffect(() => {
     updateWindow()
@@ -10,9 +10,9 @@ const EmbedVideoAsk = () => {
   const updateWindow = () => {
     try {
       if (window) {
-        window.videoask.loadEmbed({
+        window.videoask.loadModal({
           kind: 'widget',
-          url: 'https://www.videoask.com/fm3m6mpvx',
+          url: `https://www.videoask.com/${props.code}`,
           options: {
             widgetType: 'VideoThumbnailExtraLarge',
             text: '',

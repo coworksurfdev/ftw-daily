@@ -10,6 +10,7 @@ import { ListingLink } from '..'
 import { LISTING_STATE_DRAFT } from '../../util/types'
 import { EditListingDescriptionForm } from '../../forms'
 import config from '../../config'
+import EmbedVideoAsk from '../EmbedVideoAsk/EmbedVideoAsk';
 
 import css from './EditListingDescriptionPanel.css'
 
@@ -108,6 +109,7 @@ const EditListingDescriptionPanel = (props) => {
         categories={config.custom.categories}
         listing={currentListing}
       />
+      <EmbedVideoAsk code={'fpfajv9zz'}/>
     </div>
   )
 }
