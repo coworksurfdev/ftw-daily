@@ -121,7 +121,7 @@ export class BookingDatesFormComponent extends Component {
               }
               : null
 
-          const bookingInfo = bookingData ? (
+          const bookingInfo = bookingData && chargeBreakdown ? (
             <div className={css.priceBreakdownContainer}>
               <h3 className={css.priceBreakdownTitle}>
                 <FormattedMessage id="BookingDatesForm.priceBreakdownTitle" />
