@@ -88,6 +88,7 @@ export class BookingDatesFormComponent extends Component {
           } = fieldRenderProps
 
           const { publicData = {} } = listing.attributes
+          console.log(publicData)
 
           const productId = get(values, 'bookingProduct')
           const productPrice = values && productId
@@ -103,6 +104,7 @@ export class BookingDatesFormComponent extends Component {
           // EstimatedBreakdownMaybe component to change the calculations
           // for customized payment processes.
           const chargeBreakdown = getPriceAfterDiscounts(product, startDate, endDate)
+          console.log(chargeBreakdown)
           const bookingData
             = startDate && endDate
               ? {
@@ -198,7 +200,6 @@ export class BookingDatesFormComponent extends Component {
                     <h4 style={{ fontWeight: 600 }}>{productTitle}</h4>
                     {
                       products.map((prod) => {
-                        console.log(getPriceAfterDiscounts(prod, startDate, endDate))
                         return (
                           <BookingProductRadioButton
                             id={prod.id}

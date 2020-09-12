@@ -492,10 +492,10 @@ class EditListingWizard extends Component {
               </span>
             </h1>
             <p className={css.modalMessage}>
-              Last thing before we can publish your listing, you must connect to <a href="https://stripe.com/" style={{textDecoration: 'underline'}}>Stripe</a>.
+              Last thing before we can publish your listing, you must connect to <a href="https://stripe.com/" target="_blank" style={{textDecoration: 'underline'}}>Stripe</a>.
               <br/>
               <br/>
-              Stripe handles all of our payment processing. It is 100% secure and trusted by major companies around the world.
+              Stripe handles all of our payment processing. It's 100% secure and trusted by 1000's of major companies around the world.
               <br/>
               <br/>
               None of your banking data is stored or accessible by Coworksurf.
