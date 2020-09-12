@@ -69,6 +69,7 @@
   /* Font */
   @apply --marketplaceH1FontStyles;
   color: var(--matterColor);
+  font-size: 38px;
 
   /* Layout */
   margin-top: 0;
