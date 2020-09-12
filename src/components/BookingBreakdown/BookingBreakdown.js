@@ -121,12 +121,12 @@ export const BookingBreakdownComponent = (props) => {
       <LineItemDiscountMaybe transaction={transaction} unitType={unitType} intl={intl} />
       <LineItemUnknownItemsMaybe transaction={transaction} intl={intl} />
 
-      <LineItemSubTotalMaybe
-        transaction={transaction}
-        unitType={unitType}
-        userRole={userRole}
-        intl={intl}
-      />
+      {/*<LineItemSubTotalMaybe*/}
+      {/*  transaction={transaction}*/}
+      {/*  unitType={unitType}*/}
+      {/*  userRole={userRole}*/}
+      {/*  intl={intl}*/}
+      {/*/>*/}
       <LineItemRefundMaybe transaction={transaction} intl={intl} />
 
       <LineItemCustomerCommissionMaybe
