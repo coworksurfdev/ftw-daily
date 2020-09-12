@@ -20,7 +20,6 @@ const MIN_LENGTH_FOR_LONG_WORDS_IN_SURF = 20
 
 const onManageDisableScrolling = (componentId, scrollingDisabled = true) => {
   // We are just checking the value for now
-  console.log('Toggling Modal - scrollingDisabled currently:', componentId, scrollingDisabled)
 }
 
 const SectionSurfMaybe = (props) => {
