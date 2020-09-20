@@ -165,6 +165,8 @@ export class CheckoutPageComponent extends Component {
     //       this is added here instead of loadData static function.
     fetchStripeCustomer()
 
+    console.log(this.props)
+
     // Browser's back navigation should not rewrite data in session store.
     // Action is 'POP' on both history.back() and page refresh cases.
     // Action is 'PUSH' when user has directed through a link
@@ -230,6 +232,7 @@ export class CheckoutPageComponent extends Component {
       onConfirmPayment,
       onSendMessage,
       onSavePaymentMethod,
+      bookingData
     } = this.props
     const {
       pageData,
@@ -267,7 +270,7 @@ export class CheckoutPageComponent extends Component {
         = storedTx.attributes.protectedData && storedTx.attributes.protectedData.stripePaymentIntents
 
       // If paymentIntent exists, order has been initiated previously.
-      return hasPaymentIntents ? Promise.resolve(storedTx) : onInitiateOrder(fnParams, storedTx.id)
+      return hasPaymentIntents ? Promise.resolve(storedTx) : onInitiateOrder({ ...fnParams, metadata: bookingData }, storedTx.id)
     }
 
     // Step 2: pay using Stripe SDK

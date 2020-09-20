@@ -45,8 +45,6 @@ export const BookingBreakdownComponent = (props) => {
     shouldHackForCheckoutPage
   } = props
 
-  console.log(props)
-
   const isCustomer = userRole === 'customer'
   const isProvider = userRole === 'provider'
 
@@ -95,8 +93,6 @@ export const BookingBreakdownComponent = (props) => {
    *
    */
 
-  console.log(pricingData)
-  console.log(transaction)
 
   return (
     <div className={classes}>

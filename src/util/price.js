@@ -29,9 +29,6 @@ export const getPriceFromSeasonalStrategy = (startDate, endDate, seasonalPricing
 }
 
 export const getPriceAfterDiscounts = (product, startDate, endDate) => {
-  console.log(product)
-  console.log(startDate)
-  console.log(endDate)
   if (!product) return
   const numberOfDaysSelected = nightsBetween(startDate, endDate)
   const losDiscount = (product.losDiscount || []).map((los) => parseInt(los.days, 10))

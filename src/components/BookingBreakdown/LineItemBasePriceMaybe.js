@@ -47,14 +47,11 @@ const LineItemBasePriceMaybe = (props) => {
   let quantity = unitPurchase ? unitPurchase.quantity.toString() : null
 
   // THIS IS A HACK. WE NEED TO TAKE THIS OUT WHEN WE BRING IN THE NEW PAYMENT API
-  console.log(shouldHackForCheckoutPage)
   if (shouldHackForCheckoutPage) {
-    console.log(shouldHackForCheckoutPage)
     if (pricingData) {
       quantity = pricingData.unitCount
       unitPrice = formatMoney(intl, new Money(pricingData.preDiscountUnitPrice, unitPurchase.unitPrice.currency))
     } else if (transaction) {
-      console.log(transaction)
       quantity = nightsBetween(transaction.attributes.start, transaction.attributes.end) + 1
     }
   }
