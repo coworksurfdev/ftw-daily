@@ -170,7 +170,7 @@ export const convertUnitToSubUnit = (value, subUnitDivisor, useComma = false) =>
   }
 
   const val = typeof value === 'string' ? convertToDecimal(value, useComma) : new Decimal(value)
-  const amount = val.times(subUnitDivisorAsDecimal)
+  const amount = val.times(subUnitDivisorAsDecimal).trunc()
 
   if (!isSafeNumber(amount)) {
     throw new Error(
