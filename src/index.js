@@ -20,8 +20,10 @@ import 'raf/polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Decimal from 'decimal.js'
-import { ThemeProvider } from '@material-ui/core/styles';
-import theme from './theme';
+import { ThemeProvider } from '@material-ui/core/styles'
+import * as Sentry from '@sentry/react'
+import { Integrations } from '@sentry/tracing'
+import theme from './theme'
 import { createInstance, types as sdkTypes } from './util/sdkLoader'
 import { ClientApp, renderApp } from './app'
 import configureStore from './store'
@@ -38,13 +40,21 @@ import './marketplaceIndex.css'
 
 const { BigDecimal } = sdkTypes
 
+Sentry.init({
+  dsn: 'https://d811edb4e5894930a50921e5dfe9b0d0@o450547.ingest.sentry.io/5436402',
+  integrations: [
+    new Integrations.BrowserTracing(),
+  ],
+  tracesSampleRate: 1.0,
+})
+
 const render = (store, shouldHydrate) => {
   // If the server already loaded the auth information, render the app
   // immediately. Otherwise wait for the flag to be loaded and render
   // when auth information is present.
-  const jssStyles = document.querySelector('#jss-server-side');
+  const jssStyles = document.querySelector('#jss-server-side')
   if (jssStyles) {
-    jssStyles.parentElement.removeChild(jssStyles);
+    jssStyles.parentElement.removeChild(jssStyles)
   }
   const { authInfoLoaded } = store.getState().Auth
   const info = authInfoLoaded ? Promise.resolve({}) : store.dispatch(authInfo())
