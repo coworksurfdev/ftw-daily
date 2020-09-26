@@ -11,6 +11,7 @@ import { Form, Button } from '../../components'
 
 import ManageAvailabilityCalendar from './ManageAvailabilityCalendar'
 import css from './EditListingAvailabilityForm.css'
+import ProductAvailabilityCalender from './ProductAvailabilityCalendar'
 
 export class EditListingAvailabilityFormComponent extends Component {
   render() {
@@ -51,11 +52,7 @@ export class EditListingAvailabilityFormComponent extends Component {
             <Form className={classes} onSubmit={handleSubmit}>
               {errorMessage}
               <div className={css.calendarWrapper}>
-                <ManageAvailabilityCalendar
-                  availability={availability}
-                  availabilityPlan={availabilityPlan}
-                  listingId={listingId}
-                />
+                <ProductAvailabilityCalender />
               </div>
 
               <Button

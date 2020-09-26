@@ -149,6 +149,22 @@ export const SAVE_PAYOUT_DETAILS_REQUEST = 'app/EditListingPage/SAVE_PAYOUT_DETA
 export const SAVE_PAYOUT_DETAILS_SUCCESS = 'app/EditListingPage/SAVE_PAYOUT_DETAILS_SUCCESS'
 export const SAVE_PAYOUT_DETAILS_ERROR = 'app/EditListingPage/SAVE_PAYOUT_DETAILS_ERROR'
 
+export const ADD_EVENT_TO_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/ADD_EVENT_TO_AVAILABILITY_CALENDAR_REQUEST'
+export const ADD_EVENT_TO_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/ADD_EVENT_TO_AVAILABILITY_CALENDAR_SUCCESS'
+export const ADD_EVENT_TO_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/ADD_EVENT_TO_AVAILABILITY_CALENDAR_ERROR'
+export const UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST'
+export const UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS'
+export const UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR'
+export const DELETE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/DELETE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST'
+export const DELETE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/DELETE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS'
+export const DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR'
+export const FETCH_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/FETCH_AVAILABILITY_CALENDAR_REQUEST'
+export const FETCH_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/FETCH_AVAILABILITY_CALENDAR_SUCCESS'
+export const FETCH_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/FETCH_AVAILABILITY_CALENDAR_ERROR'
+export const FETCH_ICAL_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/FETCH_ICAL_AVAILABILITY_CALENDAR_REQUEST'
+export const FETCH_ICAL_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/FETCH_ICAL_AVAILABILITY_CALENDAR_SUCCESS'
+export const FETCH_ICAL_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/FETCH_ICAL_AVAILABILITY_CALENDAR_ERROR'
+
 // ================ Reducer ================ //
 
 const initialState = {
@@ -399,6 +415,37 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, payoutDetailsSaveInProgress: false }
     case SAVE_PAYOUT_DETAILS_SUCCESS:
       return { ...state, payoutDetailsSaveInProgress: false, payoutDetailsSaved: true }
+
+    case ADD_EVENT_TO_AVAILABILITY_CALENDAR_REQUEST:
+      return state
+    case ADD_EVENT_TO_AVAILABILITY_CALENDAR_SUCCESS:
+      return state
+    case ADD_EVENT_TO_AVAILABILITY_CALENDAR_ERROR:
+      return state
+    case UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST:
+      return state
+    case UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS:
+      return state
+    case UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR:
+      return state
+    case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST:
+      return state
+    case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS:
+      return state
+    case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR:
+      return state
+    case FETCH_AVAILABILITY_CALENDAR_REQUEST:
+      return state
+    case FETCH_AVAILABILITY_CALENDAR_SUCCESS:
+      return state
+    case FETCH_AVAILABILITY_CALENDAR_ERROR:
+      return state
+    case FETCH_AVAILABILITY_CALENDAR_REQUEST:
+      return state
+    case FETCH_AVAILABILITY_CALENDAR_SUCCESS:
+      return state
+    case FETCH_AVAILABILITY_CALENDAR_ERROR:
+      return state
 
     default:
       return state
@@ -743,6 +790,12 @@ export const updateListingAdHoc = (data) => {
       log.error(e, 'update-listing-failed', { listingData: data })
       return dispatch(updateListingError(storableError(e)))
     })
+  }
+}
+
+export const addEventToAvailabilityCalendar = (event) => {
+  return (dispatch, getState, sdk) => {
+    // dispatch(updateListing(data))
   }
 }
 

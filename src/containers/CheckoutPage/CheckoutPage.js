@@ -250,6 +250,8 @@ export class CheckoutPageComponent extends Component {
       ensuredStripeCustomer.defaultPaymentMethod
     )
 
+    console.log(this.props)
+
     let createdPaymentIntent = null
 
     const hasDefaultPaymentMethod = !!(

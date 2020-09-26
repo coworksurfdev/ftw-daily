@@ -1,4 +1,5 @@
 import pick from 'lodash/pick'
+import get from 'lodash/get'
 import config from '../../config'
 import { denormalisedResponseEntities } from '../../util/data'
 import { daysBetween } from '../../util/dates'
@@ -12,6 +13,7 @@ import {
 } from '../../util/transaction'
 import * as log from '../../util/log'
 import { fetchCurrentUserHasOrdersSuccess, fetchCurrentUser } from '../../ducks/user.duck'
+import api from '../../api/api'
 
 const { Money } = sdkTypes
 
@@ -241,13 +243,23 @@ export const initiateOrder = (orderParams, transactionId) => async (dispatch, ge
       }
     }
   }
-  console.log(bodyParams)
+  console.log(bodyParams, 'bodyParams duck')
   return createOrder(bodyParams, queryParams)
   .then(async (response) => {
-    await sdk.transactions.updateMetadata({
-      id: transactionId,
-      metadata: orderParams
-    })
+    console.log(response, 'response data')
+    console.log(orderParams)
+    try {
+      await api.updateTransactionMetadata(
+        get(response, 'data.data.id.uuid'),
+        {
+          ...orderParams.metadata,
+          bookingEnd: orderParams.bookingEnd,
+          bookingStart: orderParams.bookingStart,
+        }
+      )
+    } catch (e) {
+      console.log(e)
+    }
     const entities = denormalisedResponseEntities(response)
     const order = entities[0]
     dispatch(initiateOrderSuccess(order))
