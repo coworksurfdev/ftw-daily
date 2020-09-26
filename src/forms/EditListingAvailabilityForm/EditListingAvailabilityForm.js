@@ -11,7 +11,7 @@ import { Form, Button } from '../../components'
 
 // import ManageAvailabilityCalendar from './ManageAvailabilityCalendar'
 import css from './EditListingAvailabilityForm.css'
-// import ProductAvailabilityCalender from './ProductAvailabilityCalendar'
+import ProductAvailabilityCalender from './ProductAvailabilityCalendar'
 
 export class EditListingAvailabilityFormComponent extends Component {
   render() {
