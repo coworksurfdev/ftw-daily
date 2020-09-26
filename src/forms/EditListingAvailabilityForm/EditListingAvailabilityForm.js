@@ -11,9 +11,21 @@ import { Form, Button } from '../../components'
 
 import ManageAvailabilityCalendar from './ManageAvailabilityCalendar'
 import css from './EditListingAvailabilityForm.css'
-import ProductAvailabilityCalender from './ProductAvailabilityCalendar'
+// import ProductAvailabilityCalender from './ProductAvailabilityCalendar'
 
 export class EditListingAvailabilityFormComponent extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      scheduler: null
+    }
+  }
+
+  async componentDidMount() {
+    const ProductAvailabilityCalender = await import('./ProductAvailabilityCalendar')
+    this.setState({ scheduler: <ProductAvailabilityCalender.default /> })
+  }
+
   render() {
     return (
       <FinalForm
@@ -53,7 +65,7 @@ export class EditListingAvailabilityFormComponent extends Component {
               {errorMessage}
               <div className={css.calendarWrapper}>
                 {
-                  window ? <ProductAvailabilityCalender /> : null
+                  this.state.scheduler ? this.state.scheduler : null
                 }
               </div>
 

@@ -112,6 +112,56 @@ class Scheduler extends Component {
       <div>
         <DayPilotScheduler
           {...config}
+          resources={[
+            {
+              name: 'Group 1',
+              id: 'G1',
+              expanded: true,
+              children: [
+                {
+                  name: 'Resource 1',
+                  id: 'R1'
+                },
+                {
+                  name: 'Resource 2',
+                  id: 'R2'
+                }
+              ]
+            },
+            {
+              name: 'Group 2',
+              id: 'G2',
+              expanded: true,
+              children: [
+                {
+                  name: 'Resource 3',
+                  id: 'R3'
+                },
+                {
+                  name: 'Resource 4',
+                  id: 'R4'
+                }
+              ]
+            }
+          ]}
+          events={
+            [
+              {
+                id: 1,
+                resource: 'R1',
+                start: '2020-09-04T00:00:00',
+                end: '2020-09-08T00:00:00',
+                text: 'Event 1'
+              },
+              {
+                id: 2,
+                resource: 'R1',
+                start: '2020-09-12T00:00:00',
+                end: '2020-09-16T00:00:00',
+                text: 'Event 2'
+              }
+            ]
+          }
           ref={(component) => {
             this.scheduler = component && component.control
           }}
