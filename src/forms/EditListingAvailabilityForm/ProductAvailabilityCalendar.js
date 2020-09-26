@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {
   addEventToAvailabilityCalendar,
   deleteEventFromAvailabilityCalendar, fetchAvailabilityCalendar, updateEventOnAvailabilityCalendar,
-} from '../../containers/EditListingPage/EditListingPage.duck';
+} from '../../containers/EditListingPage/EditListingPage.duck'
 
 class Scheduler extends Component {
   constructor(props) {
@@ -110,13 +110,13 @@ class Scheduler extends Component {
     const { ...config } = this.state
     return (
       <div>
-        <DayPilotScheduler
-          {...config}
-          rowMinHeight={50}
-          ref={(component) => {
-            this.scheduler = component && component.control
-          }}
-        />
+        {/*<DayPilotScheduler*/}
+        {/*  {...config}*/}
+        {/*  rowMinHeight={50}*/}
+        {/*  ref={(component) => {*/}
+        {/*    this.scheduler = component && component.control*/}
+        {/*  }}*/}
+        {/*/>*/}
       </div>
     )
   }
