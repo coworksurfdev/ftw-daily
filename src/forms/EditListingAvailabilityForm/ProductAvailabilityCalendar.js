@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 import { DayPilot, DayPilotScheduler } from 'daypilot-pro-react'
+import { connect } from 'react-redux'
+import {
+  addEventToAvailabilityCalendar,
+  deleteEventFromAvailabilityCalendar, fetchAvailabilityCalendar, updateEventOnAvailabilityCalendar,
+} from '../../containers/EditListingPage/EditListingPage.duck'
 
 class Scheduler extends Component {
   constructor(props) {
@@ -8,8 +13,8 @@ class Scheduler extends Component {
     this.state = {
       timeHeaders: [{ groupBy: 'Month' }, { groupBy: 'Day', format: 'd' }],
       scale: 'Day',
-      days: DayPilot.Date.today().daysInMonth(),
-      startDate: DayPilot.Date.today().firstDayOfMonth(),
+      days: DayPilot.Date.today().daysInYear(),
+      startDate: DayPilot.Date.today().firstDayOfYear(),
       timeRangeSelectedHandling: 'Enabled',
       onTimeRangeSelected(args) {
         const dp = this
@@ -116,4 +121,15 @@ class Scheduler extends Component {
   }
 }
 
-export default Scheduler
+const mapStateToProps = (state) => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  addEventRequest: (params) => dispatch(addEventToAvailabilityCalendar(params)),
+  deleteEventRequest: (params) => dispatch(deleteEventFromAvailabilityCalendar(params)),
+  updateEventRequest: (params) => dispatch(updateEventOnAvailabilityCalendar(params)),
+  fetchCalendarRequest: (params) => dispatch(fetchAvailabilityCalendar(params)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scheduler)
