@@ -1,4 +1,5 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect } from 'react'
+import get from 'lodash/get'
 import { DayPilot, DayPilotScheduler } from 'daypilot-pro-react'
 import { connect } from 'react-redux'
 import {
@@ -7,11 +8,31 @@ import {
 } from '../../containers/EditListingPage/EditListingPage.duck'
 
 const Scheduler = (props) => {
+  const { listing } = props
+  const publicData = get(listing, 'attributes.publicData', {})
   let scheduler
 
   useEffect(() => {
 
   }, [])
+
+  const mapRooms = () => {
+    const roomGroup = {
+      name: 'Rooms / Beds',
+      id: 'rooms',
+      expanded: true,
+      children: []
+    }
+    console.log(publicData)
+    const rooms = (publicData.products || []).map((p) => {
+      return {
+        name: p.type,
+        id: p.id
+      }
+    })
+    roomGroup.children = rooms
+    return roomGroup
+  }
 
   const config = {
     timeHeaders: [{ groupBy: 'Month' }, { groupBy: 'Day', format: 'd' }],
@@ -61,38 +82,7 @@ const Scheduler = (props) => {
     <div>
       <DayPilotScheduler
         {...config}
-        resources={[
-          {
-            name: 'Group 1',
-            id: 'G1',
-            expanded: true,
-            children: [
-              {
-                name: 'Resource 1',
-                id: 'R1'
-              },
-              {
-                name: 'Resource 2',
-                id: 'R2'
-              }
-            ]
-          },
-          {
-            name: 'Group 2',
-            id: 'G2',
-            expanded: true,
-            children: [
-              {
-                name: 'Resource 3',
-                id: 'R3'
-              },
-              {
-                name: 'Resource 4',
-                id: 'R4'
-              }
-            ]
-          }
-        ]}
+        resources={[mapRooms()]}
         events={
           [
             {

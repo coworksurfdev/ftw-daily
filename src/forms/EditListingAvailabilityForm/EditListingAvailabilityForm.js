@@ -23,7 +23,12 @@ export class EditListingAvailabilityFormComponent extends Component {
 
   async componentDidMount() {
     const ProductAvailabilityCalender = await import('./ProductAvailabilityCalendar')
-    this.setState({ scheduler: <ProductAvailabilityCalender.default /> })
+    this.setState({
+      scheduler:
+        <ProductAvailabilityCalender.default
+          listing={this.props.listing || {}}
+        />
+    })
   }
 
   render() {
@@ -47,6 +52,7 @@ export class EditListingAvailabilityFormComponent extends Component {
             availability,
             availabilityPlan,
             listingId,
+            listing
           } = formRenderProps
 
           const errorMessage = updateError ? (

@@ -68,6 +68,7 @@ const EditListingAvailabilityPanel = (props) => {
       <EditListingAvailabilityForm
         className={css.form}
         listingId={currentListing.id}
+        listing={listing}
         initialValues={{ availabilityPlan }}
         availability={availability}
         availabilityPlan={availabilityPlan}
