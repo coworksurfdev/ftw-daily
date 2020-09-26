@@ -52,7 +52,9 @@ export class EditListingAvailabilityFormComponent extends Component {
             <Form className={classes} onSubmit={handleSubmit}>
               {errorMessage}
               <div className={css.calendarWrapper}>
-                <ProductAvailabilityCalender />
+                {
+                  window ? <ProductAvailabilityCalender /> : null
+                }
               </div>
 
               <Button

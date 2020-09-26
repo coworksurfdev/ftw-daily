@@ -798,6 +798,21 @@ export const addEventToAvailabilityCalendar = (event) => {
     // dispatch(updateListing(data))
   }
 }
+export const deleteEventFromAvailabilityCalendar = (event) => {
+  return (dispatch, getState, sdk) => {
+    // dispatch(updateListing(data))
+  }
+}
+export const updateEventOnAvailabilityCalendar = (event) => {
+  return (dispatch, getState, sdk) => {
+    // dispatch(updateListing(data))
+  }
+}
+export const fetchAvailabilityCalendar = (event) => {
+  return (dispatch, getState, sdk) => {
+    // dispatch(updateListing(data))
+  }
+}
 
 export const savePayoutDetails = (values, isUpdateCall) => (dispatch, getState, sdk) => {
   const upsertThunk = isUpdateCall ? updateStripeAccount : createStripeAccount
