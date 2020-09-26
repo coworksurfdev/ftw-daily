@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import { DayPilot, DayPilotScheduler } from 'daypilot-pro-react'
-import { connect } from 'react-redux'
-import {
-  addEventToAvailabilityCalendar,
-  deleteEventFromAvailabilityCalendar, fetchAvailabilityCalendar, updateEventOnAvailabilityCalendar,
-} from '../../containers/EditListingPage/EditListingPage.duck'
 
 class Scheduler extends Component {
   constructor(props) {
@@ -51,7 +46,7 @@ class Scheduler extends Component {
           args.html = 'Event details'
         }
       }),
-      treeEnabled: false,
+      treeEnabled: true,
     }
   }
 
@@ -59,13 +54,13 @@ class Scheduler extends Component {
     // load resource and event data
     this.setState({
       resources: [
-        { name: 'Room 1', id: 'A' },
-        { name: 'Room 2', id: 'B' },
-        { name: 'Room 3', id: 'C' },
-        { name: 'Room 4', id: 'D' },
-        { name: 'Room 5', id: 'E' },
-        { name: 'Room 6', id: 'F' },
-        { name: 'Room 7', id: 'G' }
+        { name: 'Resource A', id: 'A' },
+        { name: 'Resource B', id: 'B' },
+        { name: 'Resource C', id: 'C' },
+        { name: 'Resource D', id: 'D' },
+        { name: 'Resource E', id: 'E' },
+        { name: 'Resource F', id: 'F' },
+        { name: 'Resource G', id: 'G' }
       ],
       events: [
         {
@@ -110,27 +105,15 @@ class Scheduler extends Component {
     const { ...config } = this.state
     return (
       <div>
-        {/*<DayPilotScheduler*/}
-        {/*  {...config}*/}
-        {/*  rowMinHeight={50}*/}
-        {/*  ref={(component) => {*/}
-        {/*    this.scheduler = component && component.control*/}
-        {/*  }}*/}
-        {/*/>*/}
+        <DayPilotScheduler
+          {...config}
+          ref={(component) => {
+            this.scheduler = component && component.control
+          }}
+        />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {}
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  addEventRequest: (params) => dispatch(addEventToAvailabilityCalendar(params)),
-  deleteEventRequest: (params) => dispatch(deleteEventFromAvailabilityCalendar(params)),
-  updateEventRequest: (params) => dispatch(updateEventOnAvailabilityCalendar(params)),
-  fetchCalendarRequest: (params) => dispatch(fetchAvailabilityCalendar(params)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Scheduler)
+export default Scheduler

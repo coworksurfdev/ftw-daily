@@ -9,7 +9,7 @@ import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl'
 import { propTypes } from '../../util/types'
 import { Form, Button } from '../../components'
 
-// import ManageAvailabilityCalendar from './ManageAvailabilityCalendar'
+import ManageAvailabilityCalendar from './ManageAvailabilityCalendar'
 import css from './EditListingAvailabilityForm.css'
 import ProductAvailabilityCalender from './ProductAvailabilityCalendar'
 
@@ -52,6 +52,9 @@ export class EditListingAvailabilityFormComponent extends Component {
             <Form className={classes} onSubmit={handleSubmit}>
               {errorMessage}
               <div className={css.calendarWrapper}>
+                {
+                  window ? <ProductAvailabilityCalender /> : null
+                }
               </div>
 
               <Button
