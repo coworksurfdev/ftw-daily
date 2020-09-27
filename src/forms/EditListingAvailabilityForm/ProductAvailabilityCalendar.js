@@ -8,12 +8,19 @@ import {
 } from '../../containers/EditListingPage/EditListingPage.duck'
 
 const Scheduler = (props) => {
-  const { listing } = props
+  const {
+    listing,
+    fetchingAvailabilityCalendar,
+    ampAvailabilityCalendar,
+    availabilityCalendarRequestError
+  } = props
+
   const publicData = get(listing, 'attributes.publicData', {})
   let scheduler
 
   useEffect(() => {
-
+    console.log(listing)
+    props.fetchCalendarRequest(listing.id.uuid)
   }, [])
 
   const mapRooms = () => {
@@ -34,13 +41,30 @@ const Scheduler = (props) => {
     return roomGroup
   }
 
+  const mapCWSEvents = () => {
+    return ampAvailabilityCalendar.map((v) => {
+      return {
+        id: v.id,
+        resource: v.productId,
+        start: v.startDate,
+        end: v.endDate,
+        text: 'Booking',
+        moveDisabled: v.isCWSEvent,
+        resizeDisabled: v.isCWSEvent,
+        clickDisabled: v.isCWSEvent,
+        rightClickDisabled: v.isCWSEvent,
+        deleteDisabled: v.isCWSEvent
+      }
+    })
+  }
+
   const config = {
     timeHeaders: [{ groupBy: 'Month' }, { groupBy: 'Day', format: 'd' }],
     scale: 'Day',
     days: DayPilot.Date.today().daysInYear(),
     startDate: DayPilot.Date.today(),
     timeRangeSelectedHandling: 'Enabled',
-    onTimeRangeSelected(args) {
+    onTimeRangeSelected: async (args) => {
       const dp = scheduler
       DayPilot.Modal.prompt('Create a new event:', 'Event 1').then((modal) => {
         dp.clearSelection()
@@ -52,6 +76,11 @@ const Scheduler = (props) => {
           resource: args.resource,
           text: modal.result
         }))
+      })
+      await props.addEventRequest({
+        startDate: args.start,
+        endDate: args.end,
+        productId: args.resource
       })
     },
     eventMoveHandling: 'Update',
@@ -75,6 +104,9 @@ const Scheduler = (props) => {
         args.html = 'Event details'
       }
     }),
+    onBeforeRowHeaderRender: (args) => {
+      args.row.html = `<span style='font-weight: bold'>${args.row.name}</span>`
+    },
     treeEnabled: true,
   }
 
@@ -82,25 +114,11 @@ const Scheduler = (props) => {
     <div>
       <DayPilotScheduler
         {...config}
+        eventHeight={50}
+        rowMinHeight={50}
+        cellWidth={50}
         resources={[mapRooms()]}
-        events={
-          [
-            {
-              id: 1,
-              resource: 'R1',
-              start: '2020-09-04T00:00:00',
-              end: '2020-09-08T00:00:00',
-              text: 'Event 1'
-            },
-            {
-              id: 2,
-              resource: 'R1',
-              start: '2020-09-12T00:00:00',
-              end: '2020-09-16T00:00:00',
-              text: 'Event 2'
-            }
-          ]
-        }
+        events={mapCWSEvents()}
         ref={(component) => {
           scheduler = component && component.control
         }}
@@ -110,7 +128,17 @@ const Scheduler = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  console.log(state)
+  const {
+    fetchingAvailabilityCalendar,
+    ampAvailabilityCalendar,
+    availabilityCalendarRequestError
+  } = state.EditListingPage
+  return {
+    fetchingAvailabilityCalendar,
+    ampAvailabilityCalendar,
+    availabilityCalendarRequestError
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({

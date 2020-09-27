@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import * as Sentry from '@sentry/browser';
 import {
   bool, func, instanceOf, object, oneOfType, shape, string
 } from 'prop-types'
@@ -107,6 +108,18 @@ const checkIsPaymentExpired = (existingTransaction) => {
     : txIsPaymentPending(existingTransaction)
       ? minutesBetween(existingTransaction.attributes.lastTransitionedAt, new Date()) >= 15
       : false
+}
+
+const getBookingProduct = (listing, bookingData) => {
+  try {
+    const { bookingProduct } = bookingData
+    const { publicData } = listing.attributes
+    const product = publicData.products.find((p) => p.id === bookingProduct)
+    return product || {}
+  } catch (e) {
+    Sentry.captureException(`getBookingProduct - ${e}`)
+    return {}
+  }
 }
 
 export class CheckoutPageComponent extends Component {
@@ -232,7 +245,8 @@ export class CheckoutPageComponent extends Component {
       onConfirmPayment,
       onSendMessage,
       onSavePaymentMethod,
-      bookingData
+      bookingData,
+      listing
     } = this.props
     const {
       pageData,
@@ -272,7 +286,15 @@ export class CheckoutPageComponent extends Component {
         = storedTx.attributes.protectedData && storedTx.attributes.protectedData.stripePaymentIntents
 
       // If paymentIntent exists, order has been initiated previously.
-      return hasPaymentIntents ? Promise.resolve(storedTx) : onInitiateOrder({ ...fnParams, metadata: bookingData }, storedTx.id)
+      return hasPaymentIntents ? Promise.resolve(storedTx) : onInitiateOrder(
+        {
+          ...fnParams,
+          metadata: {
+            ...bookingData,
+            ...getBookingProduct(listing, bookingData)
+          }
+        }, storedTx.id
+      )
     }
 
     // Step 2: pay using Stripe SDK
@@ -527,9 +549,7 @@ export class CheckoutPageComponent extends Component {
       bookingDates,
       listing,
     } = this.props
-    const { bookingProduct } = bookingData
-    const { publicData } = listing.attributes
-    const product = publicData.products.find((p) => p.id === bookingProduct)
+    const product = getBookingProduct(listing, bookingData)
     return product ? getPriceAfterDiscounts(product, bookingDates.bookingStart, bookingDates.bookingEnd) : {}
   }
 
@@ -947,9 +967,9 @@ export class CheckoutPageComponent extends Component {
               {speculateTransactionErrorMessage}
               {breakdown}
             </div>
-            {/*<div className={css.onePercentLogoContainer}>*/}
-            {/*  <IconOnePercent className={css.onePercentLogo}/>*/}
-            {/*</div>*/}
+            {/* <div className={css.onePercentLogoContainer}> */}
+            {/*  <IconOnePercent className={css.onePercentLogo}/> */}
+            {/* </div> */}
           </div>
         </div>
       </Page>

@@ -11,6 +11,7 @@ import {
   fetchStripeAccount,
 } from '../../ducks/stripeConnectAccount.duck'
 import { fetchCurrentUser } from '../../ducks/user.duck'
+import api from '../../api/api'
 
 const { UUID } = sdkTypes
 
@@ -95,7 +96,9 @@ const updateCalendarMonth = (state, monthId, data) => {
 
 const requestAction = (actionType) => (params) => ({ type: actionType, payload: { params } })
 
-const successAction = (actionType) => (result) => ({ type: actionType, payload: result.data })
+const successAction = (actionType) => (result) => {
+  return ({ type: actionType, payload: result.data })
+}
 
 const errorAction = (actionType) => (error) => ({ type: actionType, payload: error, error: true })
 
@@ -196,6 +199,9 @@ const initialState = {
   updateInProgress: false,
   payoutDetailsSaveInProgress: false,
   payoutDetailsSaved: false,
+  fetchingAvailabilityCalendar: false,
+  ampAvailabilityCalendar: [],
+  availabilityCalendarRequestError: null
 }
 
 export default function reducer(state = initialState, action = {}) {
@@ -435,17 +441,22 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR:
       return state
     case FETCH_AVAILABILITY_CALENDAR_REQUEST:
-      return state
+      return {
+        ...state,
+        fetchingAvailabilityCalendar: true
+      }
     case FETCH_AVAILABILITY_CALENDAR_SUCCESS:
-      return state
+      return {
+        ...state,
+        fetchingAvailabilityCalendar: false,
+        ampAvailabilityCalendar: payload
+      }
     case FETCH_AVAILABILITY_CALENDAR_ERROR:
-      return state
-    case FETCH_AVAILABILITY_CALENDAR_REQUEST:
-      return state
-    case FETCH_AVAILABILITY_CALENDAR_SUCCESS:
-      return state
-    case FETCH_AVAILABILITY_CALENDAR_ERROR:
-      return state
+      return {
+        ...state,
+        fetchingAvailabilityCalendar: false,
+        availabilityCalendarRequestError: payload
+      }
 
     default:
       return state
@@ -533,6 +544,14 @@ export const savePayoutDetailsRequest = requestAction(SAVE_PAYOUT_DETAILS_REQUES
 export const savePayoutDetailsSuccess = successAction(SAVE_PAYOUT_DETAILS_SUCCESS)
 export const savePayoutDetailsError = errorAction(SAVE_PAYOUT_DETAILS_ERROR)
 
+export const fetchAvailabilityCalendarRequest = requestAction(FETCH_AVAILABILITY_CALENDAR_REQUEST)
+export const fetchAvailabilityCalendarSuccess = successAction(FETCH_AVAILABILITY_CALENDAR_SUCCESS)
+export const fetchAvailabilityCalendarError = errorAction(FETCH_AVAILABILITY_CALENDAR_ERROR)
+
+export const addEventToAvailabilityCalendarRequest = requestAction(ADD_EVENT_TO_AVAILABILITY_CALENDAR_REQUEST)
+export const addEventToAvailabilityCalendarSuccess = successAction(ADD_EVENT_TO_AVAILABILITY_CALENDAR_SUCCESS)
+export const addEventToAvailabilityCalendarError = errorAction(ADD_EVENT_TO_AVAILABILITY_CALENDAR_ERROR)
+
 // ================ Thunk ================ //
 
 export function requestShowListing(actionPayload) {
@@ -603,7 +622,6 @@ export const asyncRequestImageUpload = (actionPayload) => {
     return sdk.images
     .upload({ image: actionPayload.file })
     .then((resp) => {
-      console.log(resp)
       // dispatch(uploadImageSuccess({ data: { id, imageId: resp.data.data.id } }))
       return resp.data.data.id
     })
@@ -619,11 +637,9 @@ export function requestImageUpload(actionPayload) {
   return (dispatch, getState, sdk) => {
     const { id } = actionPayload
     dispatch(uploadImage(actionPayload))
-    console.log(actionPayload)
     return sdk.images
     .upload({ image: actionPayload.file })
     .then((resp) => {
-      console.log(resp)
       dispatch(uploadImageSuccess({ data: { id, imageId: resp.data.data.id } }))
     })
     .catch((e) => {
@@ -739,7 +755,6 @@ export const requestDeleteAvailabilityException = (params) => (dispatch, getStat
 export function requestUpdateListing(tab, data) {
   return (dispatch, getState, sdk) => {
     dispatch(updateListing(data))
-    console.log(data)
     const { id } = data
     let updateResponse
     return sdk.ownListings
@@ -768,7 +783,6 @@ export function requestUpdateListing(tab, data) {
 export const updateListingAdHoc = (data) => {
   return (dispatch, getState, sdk) => {
     dispatch(updateListing(data))
-    console.log(data)
     const { id } = data
     let updateResponse
     return sdk.ownListings
@@ -793,9 +807,17 @@ export const updateListingAdHoc = (data) => {
   }
 }
 
-export const addEventToAvailabilityCalendar = (event) => {
+export const addEventToAvailabilityCalendar = (params) => {
   return (dispatch, getState, sdk) => {
-    // dispatch(updateListing(data))
+    dispatch(addEventToAvailabilityCalendarRequest(params))
+    return api.addEventToCalendar(params)
+    .then((r) => {
+      return dispatch(addEventToAvailabilityCalendarSuccess(r))
+    })
+    .catch((e) => {
+      console.log(e)
+      return dispatch(addEventToAvailabilityCalendarError({ error: e, ...params }))
+    })
   }
 }
 export const deleteEventFromAvailabilityCalendar = (event) => {
@@ -810,7 +832,15 @@ export const updateEventOnAvailabilityCalendar = (event) => {
 }
 export const fetchAvailabilityCalendar = (event) => {
   return (dispatch, getState, sdk) => {
-    // dispatch(updateListing(data))
+    dispatch(fetchAvailabilityCalendarRequest(event))
+    return api.getCalendar(event)
+    .then((r) => {
+      return dispatch(fetchAvailabilityCalendarSuccess(r))
+    })
+    .catch((e) => {
+      console.log(e)
+      return dispatch(fetchAvailabilityCalendarError({ error: e, ...event }))
+    })
   }
 }
 
