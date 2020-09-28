@@ -810,7 +810,7 @@ export const updateListingAdHoc = (data) => {
 export const addEventToAvailabilityCalendar = (params) => {
   return (dispatch, getState, sdk) => {
     dispatch(addEventToAvailabilityCalendarRequest(params))
-    return api.addEventToCalendar(params)
+    return api.addEventToCalendar({ events: [params] })
     .then((r) => {
       return dispatch(addEventToAvailabilityCalendarSuccess(r))
     })

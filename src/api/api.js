@@ -13,5 +13,5 @@ export default {
     { id: transactionId, metadata }
   ),
   getCalendar: (listingId) => instance.get(`/get_calendar/${listingId}`),
-  addEventToCalendar: (params) => instance.post('/add_calendar_event', params)
+  addEventToCalendar: (params) => instance.put('/add_calendar_event', params)
 }

@@ -78,6 +78,7 @@ const Scheduler = (props) => {
         }))
       })
       await props.addEventRequest({
+        listingId: listing.id.uuid,
         startDate: args.start,
         endDate: args.end,
         productId: args.resource
