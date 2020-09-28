@@ -7,6 +7,8 @@ const instance = axios.create({
   }
 })
 
+console.log(process.env.REACT_APP_AMPLIFY_API_KEY)
+
 export default {
   updateTransactionMetadata: (transactionId, metadata) => instance.post(
     '/update_transaction_metadata',
