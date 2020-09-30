@@ -193,13 +193,13 @@ class TopbarComponent extends Component {
 
     return (
       <div className={classes}>
-        <LimitedAccessBanner
-          isAuthenticated={isAuthenticated}
-          authScopes={authScopes}
-          currentUser={currentUser}
-          onLogout={this.handleLogout}
-          currentPage={currentPage}
-        />
+        {/*<LimitedAccessBanner*/}
+        {/*  isAuthenticated={isAuthenticated}*/}
+        {/*  authScopes={authScopes}*/}
+        {/*  currentUser={currentUser}*/}
+        {/*  onLogout={this.handleLogout}*/}
+        {/*  currentPage={currentPage}*/}
+        {/*/>*/}
         <div className={classNames(mobileRootClassName || css.container, mobileClassName)}>
           <Button
             rootClassName={css.menu}
