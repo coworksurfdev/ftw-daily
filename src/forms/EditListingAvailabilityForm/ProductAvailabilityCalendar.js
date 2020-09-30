@@ -19,7 +19,6 @@ const Scheduler = (props) => {
   let scheduler
 
   useEffect(() => {
-    console.log(listing)
     props.fetchCalendarRequest(listing.id.uuid)
   }, [])
 
@@ -30,7 +29,6 @@ const Scheduler = (props) => {
       expanded: true,
       children: []
     }
-    console.log(publicData)
     const rooms = (publicData.products || []).map((p) => {
       return {
         name: p.type,
@@ -48,7 +46,7 @@ const Scheduler = (props) => {
         resource: v.productId,
         start: v.startDate,
         end: v.endDate,
-        text: 'Booking',
+        text: v.title ? v.title : 'Booking',
         moveDisabled: v.isCWSEvent,
         resizeDisabled: v.isCWSEvent,
         clickDisabled: v.isCWSEvent,
@@ -66,7 +64,8 @@ const Scheduler = (props) => {
     timeRangeSelectedHandling: 'Enabled',
     onTimeRangeSelected: async (args) => {
       const dp = scheduler
-      DayPilot.Modal.prompt('Create a new event:', 'Event 1').then((modal) => {
+      DayPilot.Modal.prompt('Name of booking', '')
+      .then(async (modal) => {
         dp.clearSelection()
         if (!modal.result) { return }
         dp.events.add(new DayPilot.Event({
@@ -76,25 +75,41 @@ const Scheduler = (props) => {
           resource: args.resource,
           text: modal.result
         }))
-      })
-      await props.addEventRequest({
-        listingId: listing.id.uuid,
-        startDate: args.start,
-        endDate: args.end,
-        productId: args.resource
+        await props.addEventRequest({
+          listingId: listing.id.uuid,
+          startDate: args.start,
+          endDate: args.end,
+          productId: args.resource,
+          title: modal.result || 'Booking'
+        })
       })
     },
     eventMoveHandling: 'Update',
-    onEventMoved(args) {
+    onEventMoved: async (args) => {
+      console.log(args)
       scheduler.message(`Event moved: ${args.e.text()}`)
+      await props.updateEventRequest({
+        id: get(args, 'e.data.id'),
+        startDate: args.newStart,
+        endDate: args.newEnd,
+        productId: get(args, 'e.data.resource')
+      })
     },
     eventResizeHandling: 'Update',
-    onEventResized(args) {
+    onEventResized: async (args) => {
+      console.log(args, 'resized')
       scheduler.message(`Event resized: ${args.e.text()}`)
+      await props.updateEventRequest({
+        id: get(args, 'e.data.id'),
+        startDate: args.newStart,
+        endDate: args.newEnd,
+        productId: get(args, 'e.data.resource')
+      })
     },
     eventDeleteHandling: 'Update',
-    onEventDeleted(args) {
+    onEventDeleted: async (args) => {
       scheduler.message(`Event deleted: ${args.e.text()}`)
+      await props.deleteEventRequest(get(args, 'e.data.id'))
     },
     eventClickHandling: 'Disabled',
     eventHoverHandling: 'Bubble',
@@ -144,7 +159,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   addEventRequest: (params) => dispatch(addEventToAvailabilityCalendar(params)),
-  deleteEventRequest: (params) => dispatch(deleteEventFromAvailabilityCalendar(params)),
+  deleteEventRequest: (eventId) => dispatch(deleteEventFromAvailabilityCalendar(eventId)),
   updateEventRequest: (params) => dispatch(updateEventOnAvailabilityCalendar(params)),
   fetchCalendarRequest: (params) => dispatch(fetchAvailabilityCalendar(params)),
 })

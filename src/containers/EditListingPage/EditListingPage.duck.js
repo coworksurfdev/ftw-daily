@@ -158,9 +158,9 @@ export const ADD_EVENT_TO_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/ADD
 export const UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST'
 export const UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS'
 export const UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR'
-export const DELETE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/DELETE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST'
-export const DELETE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/DELETE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS'
-export const DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR'
+export const DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_REQUEST'
+export const DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_SUCCESS'
+export const DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_ERROR'
 export const FETCH_AVAILABILITY_CALENDAR_REQUEST = 'app/EditListingPage/FETCH_AVAILABILITY_CALENDAR_REQUEST'
 export const FETCH_AVAILABILITY_CALENDAR_SUCCESS = 'app/EditListingPage/FETCH_AVAILABILITY_CALENDAR_SUCCESS'
 export const FETCH_AVAILABILITY_CALENDAR_ERROR = 'app/EditListingPage/FETCH_AVAILABILITY_CALENDAR_ERROR'
@@ -434,11 +434,11 @@ export default function reducer(state = initialState, action = {}) {
       return state
     case UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR:
       return state
-    case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST:
+    case DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_REQUEST:
       return state
-    case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS:
+    case DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_SUCCESS:
       return state
-    case DELETE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR:
+    case DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_ERROR:
       return state
     case FETCH_AVAILABILITY_CALENDAR_REQUEST:
       return {
@@ -551,6 +551,14 @@ export const fetchAvailabilityCalendarError = errorAction(FETCH_AVAILABILITY_CAL
 export const addEventToAvailabilityCalendarRequest = requestAction(ADD_EVENT_TO_AVAILABILITY_CALENDAR_REQUEST)
 export const addEventToAvailabilityCalendarSuccess = successAction(ADD_EVENT_TO_AVAILABILITY_CALENDAR_SUCCESS)
 export const addEventToAvailabilityCalendarError = errorAction(ADD_EVENT_TO_AVAILABILITY_CALENDAR_ERROR)
+
+export const deleteEventFromAvailabilityCalendarRequest = requestAction(DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_REQUEST)
+export const deleteEventFromAvailabilityCalendarSuccess = successAction(DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_SUCCESS)
+export const deleteEventFromAvailabilityCalendarError = errorAction(DELETE_EVENT_FROM_AVAILABILITY_CALENDAR_ERROR)
+
+export const updateEventOnAvailabilityCalendarRequest = requestAction(UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_REQUEST)
+export const updateEventOnAvailabilityCalendarSuccess = successAction(UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_SUCCESS)
+export const updateEventOnAvailabilityCalendarError = errorAction(UPDATE_EVENT_ON_AVAILABILITY_CALENDAR_ERROR)
 
 // ================ Thunk ================ //
 
@@ -820,14 +828,30 @@ export const addEventToAvailabilityCalendar = (params) => {
     })
   }
 }
-export const deleteEventFromAvailabilityCalendar = (event) => {
-  return (dispatch, getState, sdk) => {
-    // dispatch(updateListing(data))
+export const deleteEventFromAvailabilityCalendar = (eventId) => {
+  return (dispatch) => {
+    dispatch(deleteEventFromAvailabilityCalendarRequest(eventId))
+    return api.deleteCalendarEvent(eventId)
+    .then((r) => {
+      return dispatch(deleteEventFromAvailabilityCalendarSuccess(r))
+    })
+    .catch((e) => {
+      console.log(e)
+      return dispatch(deleteEventFromAvailabilityCalendarError({ error: e, calendarEventId: eventId }))
+    })
   }
 }
-export const updateEventOnAvailabilityCalendar = (event) => {
-  return (dispatch, getState, sdk) => {
-    // dispatch(updateListing(data))
+export const updateEventOnAvailabilityCalendar = (params) => {
+  return (dispatch) => {
+    dispatch(updateEventOnAvailabilityCalendarRequest(params))
+    return api.updateCalendarEvent({ events: [params] })
+    .then((r) => {
+      return dispatch(updateEventOnAvailabilityCalendarSuccess(r))
+    })
+    .catch((e) => {
+      console.log(e)
+      return dispatch(updateEventOnAvailabilityCalendarError({ error: e, ...params }))
+    })
   }
 }
 export const fetchAvailabilityCalendar = (event) => {
