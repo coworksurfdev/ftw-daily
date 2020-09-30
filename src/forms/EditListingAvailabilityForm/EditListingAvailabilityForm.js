@@ -61,7 +61,7 @@ export class EditListingAvailabilityFormComponent extends Component {
                 <ListItemSecondaryAction>
                   <Tooltip title="Copy iCal Link To Clipboard" aria-label="Copy iCal Link To Clipboard">
                     <CopyToClipboard text={
-                      `https://api.coworksurf.world${basePath}/room_ical/${listing.id.uuid}/${prod.id}/${process.env.REACT_APP_ICAL_KEY}/icalendar.ics`
+                      `https://api.coworksurf.world${basePath}/room_ical/${listing.id.uuid}/${prod.id}/${process.env.REACT_APP_ICAL_KEY}/calendar.ics`
                     }>
                       <IconButton
                         edge="end"

@@ -307,14 +307,11 @@ const EditListingWizardTab = (props) => {
       )
     }
     case AVAILABILITY: {
-      const submitButtonTranslationKey = isNewListingFlow
-        ? 'EditListingWizard.saveNewAvailability'
-        : 'EditListingWizard.saveEditAvailability'
       return (
         <EditListingAvailabilityPanel
           {...panelProps(AVAILABILITY)}
           availability={availability}
-          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+          submitButtonText={intl.formatMessage({ id: 'EditListingWizard.next' })}
           onSubmit={(values) => {
             onCompleteEditListingWizardTab(tab, values, true)
           }}
